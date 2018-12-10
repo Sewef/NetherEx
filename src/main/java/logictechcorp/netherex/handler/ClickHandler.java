@@ -102,24 +102,48 @@ public class ClickHandler
             }
 
         }
-        if(stack.getItem() instanceof ItemHoe)
-        {
-            if(world.getBlockState(pos).getBlock() == Blocks.SOUL_SAND)
-            {
-                for(EnumHand hand : EnumHand.values())
-                {
-                    if(player.getHeldItem(hand).getItem() instanceof ItemHoe)
-                    {
-                        player.swingArm(hand);
-                    }
-                }
+        // if(stack.getItem() instanceof ItemHoe)
+        // {
+            // if(world.getBlockState(pos).getBlock() == Blocks.SOUL_SAND)
+            // {
+                // for(EnumHand hand : EnumHand.values())
+                // {
+                    // if(player.getHeldItem(hand).getItem() instanceof ItemHoe)
+                    // {
+                        // player.swingArm(hand);
+                    // }
+                // }
 
-                world.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                world.setBlockState(pos, NetherExBlocks.TILLED_SOUL_SAND.getDefaultState(), 11);
-                stack.damageItem(1, player);
-            }
-        }
+                // world.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                // world.setBlockState(pos, NetherExBlocks.TILLED_SOUL_SAND.getDefaultState(), 11);
+                // stack.damageItem(1, player);
+            // }
+        // }
     }
+    
+    @SubscribeEvent
+	public static void onUseHoe(UseHoeEvent event)
+	{
+        World world = event.getWorld();
+        BlockPos pos = event.getPos();
+        EntityPlayer player = event.getEntityPlayer();
+        ItemStack stack = event.getItemStack();
+
+		if(world.getBlockState(pos).getBlock() == Blocks.SOUL_SAND) 
+		{
+			for(EnumHand hand : EnumHand.values())
+			{
+				if(player.getHeldItem(hand).getItem() instanceof ItemHoe)
+				{
+					player.swingArm(hand);
+				}
+			}
+
+			world.playSound(player, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+			world.setBlockState(pos, NetherExBlocks.TILLED_SOUL_SAND.getDefaultState(), 11);
+			stack.damageItem(1, player);
+		}
+	}
 
     @SubscribeEvent
     public static void onPlayerLeftClick(PlayerInteractEvent.LeftClickBlock event)
